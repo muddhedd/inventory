@@ -1,0 +1,228 @@
+/*
+ * inventory.css
+ * -----------------------------------------------------------------------
+ * Enkel, neutral bas-styling. Det här är INTE er originaldesign (den
+ * filen har aldrig delats med Claude) – byt gärna ut den mot er egen
+ * look & känsla.
+ * -----------------------------------------------------------------------
+ */
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: #f4f5f7;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+.page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 64px;
+}
+
+h1 { margin: 0 0 4px; font-size: 1.6rem; }
+h2 { margin-top: 0; }
+
+/* ---- Navigering ---- */
+.inventory-nav {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    background: #1a1a1a;
+    padding: 12px 16px;
+    margin: -24px -16px 24px;
+}
+.inventory-nav a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 0.95rem;
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+.inventory-nav a.active { color: #fff; font-weight: bold; background: rgba(255,255,255,0.08); }
+.inventory-nav a:hover { color: #fff; }
+.inventory-nav a.logout-link { margin-left: auto; color: #e74c3c; }
+
+/* ---- Toppraden ---- */
+.top-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+button, .primary-btn, .secondary-btn {
+    font: inherit;
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 8px 14px;
+    border: 1px solid #d0d0d0;
+    background: #fff;
+}
+.primary-btn { background: #1a1a1a; color: #fff; border-color: #1a1a1a; }
+.primary-btn:hover { background: #333; }
+.secondary-btn { background: #fff; color: #1a1a1a; }
+.secondary-btn:hover { background: #f0f0f0; }
+
+.info-text { font-size: 0.85rem; color: #555; }
+.error-text { color: #c0392b; font-size: 0.85rem; min-height: 1em; }
+.msg-text { font-size: 0.85rem; }
+
+.search-form { display: flex; gap: 6px; }
+.search-form input[type="text"] {
+    padding: 8px 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    min-width: 220px;
+}
+.auth-area { margin-left: auto; }
+
+/* ---- Filterrad ---- */
+.filter-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-end;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+}
+.filter-field { display: flex; flex-direction: column; font-size: 0.85rem; }
+.filter-field select {
+    margin-top: 4px;
+    padding: 6px 8px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+}
+.reset-link { font-size: 0.85rem; color: #c0392b; align-self: center; }
+
+/* ---- Tabell ---- */
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.inventory-table th, .inventory-table td {
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+.inventory-table thead th {
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 0.85rem;
+}
+.inventory-table thead th a { color: #fff; text-decoration: none; }
+.inventory-table tbody tr:last-child td { border-bottom: none; }
+.inventory-table tbody tr:hover { background: #fafafa; }
+.empty-row { text-align: center; color: #888; font-style: italic; }
+.actions-cell { display: flex; gap: 6px; flex-wrap: wrap; }
+.actions-cell button { font-size: 0.85rem; padding: 6px 10px; }
+
+/* ---- Sidbläddring ---- */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+}
+.pagination-status { font-size: 0.85rem; color: #555; }
+.pagination .disabled { opacity: 0.4; pointer-events: none; }
+
+/* ---- Popup / modal ---- */
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    z-index: 50;
+}
+.popup-overlay[hidden] { display: none; }
+.popup-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+.popup-box h2 { margin-top: 0; }
+.popup-box label { display: block; margin-bottom: 12px; font-size: 0.9rem; }
+.popup-box input, .popup-box select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    margin-top: 4px;
+    font: inherit;
+}
+.popup-box button[type="submit"] {
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #1a1a1a;
+}
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #888;
+    padding: 4px 8px;
+}
+.popup-msg { font-size: 0.85rem; color: #c0392b; margin-top: 8px; }
+
+/* ---- Inloggning ---- */
+.login-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f4f5f7;
+}
+.login-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 32px;
+    width: 100%;
+    max-width: 380px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+}
+.login-box label { display: block; margin-bottom: 12px; font-size: 0.9rem; }
+.login-box input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    margin-top: 4px;
+    font: inherit;
+}
+.login-box button {
+    width: 100%;
+    background: #1a1a1a;
+    color: #fff;
+    border-color: #1a1a1a;
+    padding: 10px;
+    font-weight: 600;
+}
+
+@media (max-width: 700px) {
+    .inventory-table { display: block; overflow-x: auto; white-space: nowrap; }
+    .inventory-nav { flex-wrap: wrap; }
+}

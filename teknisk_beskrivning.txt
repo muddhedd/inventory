@@ -1,0 +1,74 @@
+INVENTORY – TEKNISK BESKRIVNING
+=================================
+
+VAD ÄR DET?
+-----------
+En enkel inventarielista i PHP/MySQL: sök, sortera och filtrera fritt
+utan inloggning, logga in för att lägga till eller redigera objekt.
+
+Funktioner:
+- Fritextsökning över alla kolumner (Titel, OfBy, Kind, Kategori, Status)
+- Filtrering per kolumn via dropdown (byggd på befintliga värden i tabellen)
+- Sortering: klicka på kolumnrubrikerna
+- Lägg till / redigera (kräver inloggning), med autokomplettering
+  byggd på tidigare inlagda värden
+- Enkel användarhantering via admin.php: skapa, redigera (byt namn
+  och/eller lösenord) och ta bort användare. Går aldrig att ta bort
+  den sista kvarvarande användaren.
+
+TEKNIK
+------
+- PHP 8.1+
+- MySQL / MariaDB (InnoDB, utf8mb4)
+- Vanilla JavaScript (fetch + FormData) för AJAX – inget ramverk
+
+FILER
+-----
+- inventory_config.php  Databasanslutning, session/inloggning, delade
+                         hjälpfunktioner. Inkluderas av både
+                         inventory.php och admin.php.
+- inventory.php          Huvudsidan: lista/sök/filter/sortering (öppet
+                          för alla), samt lägg till/redigera (kräver
+                          inloggning). Hanterar även inloggning/
+                          utloggning via AJAX.
+- admin.php               Användarhantering: lista, lägg till, redigera
+                           (namn/lösenord), ta bort. Kräver inloggning.
+- inventory.css           Enkel bas-styling. Byt gärna ut mot er egen
+                           design.
+- schema_inventory.sql    Skapar tabellerna (prefix inventory_) samt en
+                           färdig admin-användare.
+
+INSTALLATION
+------------
+1. Kör schema_inventory.sql i phpMyAdmin (eller `mysql < schema_inventory.sql`).
+2. Öppna inventory_config.php och fyll i dina egna uppgifter:
+     DB_HOST  – din databasserver, t.ex. "localhost"
+     DB_USER  – ditt databasanvändarnamn
+     DB_PASS  – ditt databaslösenord
+     DB_NAME  – namnet på databasen du körde SQL-skriptet i
+3. Ladda upp samtliga filer till samma mapp på din webbserver (PHP 8.1
+   eller senare, med mysqli-tillägget aktiverat).
+4. Besök inventory.php. Listan fungerar direkt utan inloggning; logga
+   in för att lägga till/redigera eller nå Admin-sidan.
+
+STANDARDINLOGGNING
+-------------------
+    Användarnamn: Admin
+    Lösenord:     123qwe!!
+
+Byt lösenordet direkt efter installation via Admin-sidan (klicka
+"Redigera" på Admin-raden, fyll i ett nytt lösenord).
+
+SÄKERHET
+--------
+- Lösenord hashas med PHP:s inbyggda password_hash()/password_verify()
+  (bcrypt), aldrig i klartext eller med en svag hash som MD5.
+- All databaskommunikation sker via prepared statements (mysqli).
+- Sessionen är giltig i 24 timmar.
+- Ingen roll-/behörighetsuppdelning – alla inloggade användare har
+  samma fulla åtkomst.
+
+LICENS
+------
+Fyll i vilken licens du vill dela koden under (t.ex. MIT) innan du
+publicerar repot.
